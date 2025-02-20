@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { HStack, Flex, Text } from '@chakra-ui/react'
+import { TaskPanel } from './components/TaskPanel'
+import { ChangeEvent, useState } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [taskInput, setTaskInput] = useState('')
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.value)
+    setTaskInput(e.currentTarget.value)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <HStack flexDirection="column" alignItems="center" w="full" h="100vh" p={8}>
+      <Flex w="full" maxWidth={650} direction="column">
+        <Text as="h1" fontSize={36} fontWeight="bold" marginBottom={4}>
+          Todo List
+        </Text>
+        <TaskPanel
+          value={taskInput}
+          changeInput={handleChangeInput}
+          createTask={() => {
+            console.log('Create task')
+          }}
+        />
+        <Flex w="full" gap={4}></Flex>
+      </Flex>
+    </HStack>
   )
 }
-
-export default App
