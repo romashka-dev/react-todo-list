@@ -6,9 +6,9 @@ interface TaskCardProps {
   id: string
   label: string
   status: boolean
-  taskChangeStatus: () => {}
-  removeTask: () => {}
-  editTask: () => {}
+  taskChangeStatus?: () => void
+  removeTask: () => void
+  editTask?: () => void
 }
 
 export const TaskCard = ({
@@ -16,11 +16,18 @@ export const TaskCard = ({
   label,
   status,
   taskChangeStatus,
-  removeTask,
   editTask,
+  removeTask,
 }: TaskCardProps) => {
   return (
-    <Card.Root w="full">
+    <Card.Root
+      w="full"
+      border={
+        status
+          ? '1px solid var(--chakra-colors-red-600)'
+          : '1px solid var(--chakra-colors-border)'
+      }
+    >
       <Card.Body
         p={4}
         flexDirection="row"
@@ -33,29 +40,27 @@ export const TaskCard = ({
           cursor="pointer"
           variant="outline"
           id={id}
-          onChange={() => {}}
+          onChange={taskChangeStatus}
           checked={status}
         >
-          <Text as={status ? 'del' : 'b'}>{label}</Text>
+          <Text
+            as={status ? 'del' : 'p'}
+            truncate
+            display="block"
+            maxW={{ base: '130px', md: '300px' }}
+          >
+            {label}
+          </Text>
         </Checkbox>
+        {!status && (
+          <IconButton size="xs" onClick={editTask} aria-label="Edit task">
+            <FaPen />
+          </IconButton>
+        )}
         <IconButton
-          width={{ base: '8' }}
-          minW="auto"
-          height={{ base: '8' }}
-          onClick={() => {
-            console.log('Edit')
-          }}
-          aria-label="Edit task"
-        >
-          <FaPen />
-        </IconButton>
-        <IconButton
-          width={{ base: '8' }}
-          minW="auto"
-          height={{ base: '8' }}
-          onClick={() => {
-            console.log('Delete')
-          }}
+          size="xs"
+          colorPalette="orange"
+          onClick={removeTask}
           aria-label="Delete task"
         >
           <FaRegTrashCan />

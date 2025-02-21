@@ -16,7 +16,7 @@ export const TaskPanel = ({
   return (
     <Flex
       w="full"
-      mb={8}
+      mb={4}
       justifyContent="space-between"
       alignItems="center"
       gap={4}
