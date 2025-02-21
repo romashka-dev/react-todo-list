@@ -2,6 +2,7 @@ import { HStack, Flex, Text, Separator, Box } from '@chakra-ui/react'
 import { TaskPanel } from './components/TaskPanel'
 import { TaskCard } from './components/TaskCard'
 import { ChangeEvent, useState } from 'react'
+import { DialogInit } from './components/DialogInit'
 import { v4 as uuidv4 } from 'uuid'
 
 interface TaskProps {
@@ -13,14 +14,17 @@ interface TaskProps {
 export const App = () => {
   const [taskInput, setTaskInput] = useState('')
   const [tasks, setTasks] = useState<TaskProps[]>([])
+  const [isEditing, setIsEditing] = useState(false)
+  const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
+  const [newLabel, setNewLabel] = useState('')
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value)
     setTaskInput(e.currentTarget.value)
   }
 
   const handleCreateTask = () => {
     const newTask = { id: uuidv4(), label: taskInput, status: false }
+
     setTasks((prev) => [...prev, newTask])
     setTaskInput('')
   }
@@ -34,12 +38,25 @@ export const App = () => {
   const activeTask = tasks.filter((task) => task.status === false)
   const completeTask = tasks.filter((task) => task.status === true)
 
-  const handleEditTask = (id: string) => {
-    console.log(id)
+  const handleEditTask = (task: TaskProps) => {
+    setCurrentTask(task)
+    setNewLabel(task.label)
+    setIsEditing(true)
+  }
+
+  const handleSaveTask = () => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === currentTask?.id ? { ...task, label: newLabel } : task
+      )
+    )
+    setIsEditing(false)
+    setCurrentTask(null)
   }
 
   const handleRemoveTask = (id: string) => {
     const removeTask = tasks.filter((task) => task.id !== id)
+
     setTasks(removeTask)
   }
 
@@ -71,7 +88,7 @@ export const App = () => {
               taskChangeStatus={() => {
                 handleCompleteTask(task.id)
               }}
-              editTask={() => handleEditTask(task.id)}
+              editTask={() => handleEditTask(task)}
               removeTask={() => handleRemoveTask(task.id)}
             />
           ))}
@@ -98,6 +115,16 @@ export const App = () => {
           ))}
         </Flex>
       </Flex>
+
+      {currentTask && (
+        <DialogInit
+          open={isEditing}
+          newLabel={newLabel}
+          handleInput={(e) => setNewLabel(e.target.value)}
+          handleSaveTask={handleSaveTask}
+          handleCloseModal={() => setIsEditing(false)}
+        />
+      )}
     </HStack>
   )
 }

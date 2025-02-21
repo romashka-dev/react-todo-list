@@ -21,8 +21,13 @@ export const TaskPanel = ({
       alignItems="center"
       gap={4}
     >
-      <Input onChange={changeInput} value={value} placeholder="Create task" />
+      <Input
+        onChange={changeInput}
+        value={value}
+        placeholder="Use at least 2 characters to start creating new task"
+      />
       <IconButton
+        disabled={value.length < 2}
         onClick={createTask}
         aria-label="Create task"
         colorScheme="orange"
