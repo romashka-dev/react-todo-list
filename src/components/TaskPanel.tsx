@@ -14,7 +14,13 @@ export const TaskPanel = ({
   createTask,
 }: TaskPanelProps) => {
   return (
-    <Flex w="full" justifyContent="space-between" alignItems="center" gap={4}>
+    <Flex
+      w="full"
+      mb={8}
+      justifyContent="space-between"
+      alignItems="center"
+      gap={4}
+    >
       <Input onChange={changeInput} value={value} placeholder="Create task" />
       <IconButton
         onClick={createTask}

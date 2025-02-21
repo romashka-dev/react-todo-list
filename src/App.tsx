@@ -1,5 +1,6 @@
 import { HStack, Flex, Text } from '@chakra-ui/react'
 import { TaskPanel } from './components/TaskPanel'
+import { TaskCard } from './components/TaskCard'
 import { ChangeEvent, useState } from 'react'
 
 export const App = () => {
@@ -10,7 +11,14 @@ export const App = () => {
   }
 
   return (
-    <HStack flexDirection="column" alignItems="center" w="full" h="100vh" p={8}>
+    <HStack
+      flexDirection="column"
+      alignItems="center"
+      w="full"
+      h="100vh"
+      py="8"
+      px={{ base: '4', md: '8' }}
+    >
       <Flex w="full" maxWidth={650} direction="column">
         <Text as="h1" fontSize={36} fontWeight="bold" marginBottom={4}>
           Todo List
@@ -22,7 +30,11 @@ export const App = () => {
             console.log('Create task')
           }}
         />
-        <Flex w="full" gap={4}></Flex>
+        <Flex direction="column" w="full" gap={4}>
+          <TaskCard />
+          <TaskCard />
+          <TaskCard />
+        </Flex>
       </Flex>
     </HStack>
   )
