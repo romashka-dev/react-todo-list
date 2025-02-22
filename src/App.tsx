@@ -17,6 +17,7 @@ export const App = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
   const [newLabel, setNewLabel] = useState('')
+  const [filter, setFilter] = useState('all')
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]')
@@ -39,6 +40,10 @@ export const App = () => {
 
     setTasks((prev) => [...prev, newTask])
     setTaskInput('')
+  }
+
+  const handleSortTasks = (sortValue: string) => {
+    setFilter(sortValue)
   }
 
   const handleCompleteTask = (id: string) => {
@@ -87,44 +92,115 @@ export const App = () => {
         </Text>
         <TaskPanel
           value={taskInput}
+          filter={filter}
           changeInput={handleChangeInput}
           createTask={handleCreateTask}
+          sortTasks={handleSortTasks}
         />
         <Flex direction="column" w="full" gap={4}>
-          {activeTask.map((task) => (
-            <TaskCard
-              key={task.id}
-              id={task.id}
-              label={task.label}
-              status={task.status}
-              taskChangeStatus={() => {
-                handleCompleteTask(task.id)
-              }}
-              editTask={() => handleEditTask(task)}
-              removeTask={() => handleRemoveTask(task.id)}
-            />
-          ))}
+          {filter === 'all' && (
+            <>
+              {activeTask.length > 0 ? (
+                <Box>
+                  <Separator my={4} />
+                  <Text fontWeight="bold" textAlign="left">
+                    Incompleted
+                  </Text>
+                </Box>
+              ) : (
+                ''
+              )}
 
-          {completeTask.length > 0 ? (
-            <Box>
-              <Separator my={4} />
-              <Text fontWeight="bold" textAlign="left">
-                It's done!
-              </Text>
-            </Box>
-          ) : (
-            ''
+              {activeTask.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  label={task.label}
+                  status={task.status}
+                  taskChangeStatus={() => {
+                    handleCompleteTask(task.id)
+                  }}
+                  editTask={() => handleEditTask(task)}
+                  removeTask={() => handleRemoveTask(task.id)}
+                />
+              ))}
+
+              {completeTask.length > 0 ? (
+                <Box>
+                  <Separator my={4} />
+                  <Text fontWeight="bold" textAlign="left">
+                    Completed
+                  </Text>
+                </Box>
+              ) : (
+                ''
+              )}
+
+              {completeTask.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  label={task.label}
+                  status={task.status}
+                  removeTask={() => handleRemoveTask(task.id)}
+                />
+              ))}
+            </>
           )}
 
-          {completeTask.map((task) => (
-            <TaskCard
-              key={task.id}
-              id={task.id}
-              label={task.label}
-              status={task.status}
-              removeTask={() => handleRemoveTask(task.id)}
-            />
-          ))}
+          {filter === 'completed' && (
+            <>
+              {completeTask.length > 0 ? (
+                <Box>
+                  <Separator my={4} />
+                  <Text fontWeight="bold" textAlign="left">
+                    Completed
+                  </Text>
+                </Box>
+              ) : (
+                ''
+              )}
+
+              {completeTask.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  label={task.label}
+                  status={task.status}
+                  removeTask={() => handleRemoveTask(task.id)}
+                />
+              ))}
+            </>
+          )}
+
+          {filter === 'incompleted' && (
+            <>
+              {activeTask.length > 0 ? (
+                <Box>
+                  <Separator my={4} />
+                  <Text fontWeight="bold" textAlign="left">
+                    Incompleted
+                  </Text>
+                </Box>
+              ) : (
+                ''
+              )}
+
+              {activeTask.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  label={task.label}
+                  status={task.status}
+                  taskChangeStatus={() => {
+                    handleCompleteTask(task.id)
+                  }}
+                  editTask={() => handleEditTask(task)}
+                  removeTask={() => handleRemoveTask(task.id)}
+                />
+              ))}
+            </>
+          )}
         </Flex>
       </Flex>
 
