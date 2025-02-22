@@ -1,9 +1,9 @@
-import { HStack, Flex, Text, Separator, Box } from '@chakra-ui/react'
-import { TaskPanel } from './components/TaskPanel'
-import { TaskCard } from './components/TaskCard'
-import { ChangeEvent, useState } from 'react'
-import { DialogInit } from './components/DialogInit'
 import { v4 as uuidv4 } from 'uuid'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { HStack, Flex, Text, Separator, Box } from '@chakra-ui/react'
+import { TaskPanel } from '@/components/TaskPanel'
+import { TaskCard } from '@/components/TaskCard'
+import { DialogInit } from '@/components/DialogInit'
 
 interface TaskProps {
   id: string
@@ -17,6 +17,18 @@ export const App = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
   const [newLabel, setNewLabel] = useState('')
+
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]')
+
+    if (storedTasks.length > 0) {
+      setTasks(storedTasks)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.currentTarget.value)
