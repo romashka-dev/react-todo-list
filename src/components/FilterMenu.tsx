@@ -8,12 +8,12 @@ import {
 import { HiSortAscending } from 'react-icons/hi'
 import { Button, useMediaQuery } from '@chakra-ui/react'
 
-interface InitMenuProps {
+interface FilterMenuProps {
   filterValue: string
   filterTasks: (sortValue: string) => void
 }
 
-export const InitMenu = ({ filterValue, filterTasks }: InitMenuProps) => {
+export const FilterMenu = ({ filterValue, filterTasks }: FilterMenuProps) => {
   const [isMobile] = useMediaQuery(['(max-width: 768px)'], { ssr: false })
 
   return (

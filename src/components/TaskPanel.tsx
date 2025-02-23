@@ -1,7 +1,7 @@
 import { HStack, IconButton, Input } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 import { FaRegSquarePlus } from 'react-icons/fa6'
-import { InitMenu } from './InitMenu'
+import { FilterMenu } from './FilterMenu'
 
 interface TaskPanelProps {
   value: string
@@ -22,6 +22,7 @@ export const TaskPanel = ({
     <HStack w="full" gap={3}>
       <Input
         size={{ base: 'sm', md: 'md' }}
+        variant="subtle"
         value={value}
         placeholder="Min. 2 characters to begin ..."
         onChange={changeInput}
@@ -34,7 +35,7 @@ export const TaskPanel = ({
       >
         <FaRegSquarePlus />
       </IconButton>
-      <InitMenu filterTasks={filterTasks} filterValue={filterValue} />
+      <FilterMenu filterTasks={filterTasks} filterValue={filterValue} />
     </HStack>
   )
 }

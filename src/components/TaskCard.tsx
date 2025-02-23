@@ -23,8 +23,6 @@ export const TaskCard = ({
   const day = new Date().toLocaleDateString('en-us', { day: 'numeric' })
   const month = new Date().toLocaleDateString('en-us', { month: 'short' })
 
-  console.log(id)
-
   return (
     <Stack>
       <Card.Root
