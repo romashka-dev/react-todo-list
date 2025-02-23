@@ -1,6 +1,15 @@
 import { v4 as uuidv4 } from 'uuid'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Stack, VStack, Text, Separator, Box, HStack } from '@chakra-ui/react'
+import {
+  Stack,
+  VStack,
+  HStack,
+  Heading,
+  Box,
+  Text,
+  Separator,
+  Alert,
+} from '@chakra-ui/react'
 import { TaskPanel } from '@/components/TaskPanel'
 import { TaskCard } from '@/components/TaskCard'
 import { DialogInit } from '@/components/DialogInit'
@@ -92,15 +101,15 @@ export const App = () => {
         <InitColorMode />
       </HStack>
       <VStack m="0 auto" p={{ base: 4, md: 8 }} w="full" maxWidth={600} gap={4}>
-        <Text
+        <Heading
           as="h1"
           w="full"
           fontSize={36}
-          fontWeight="bold"
+          fontWeight="bolder"
           textTransform="capitalize"
         >
           todo list
-        </Text>
+        </Heading>
         <TaskPanel
           value={taskInput}
           filterValue={filterValue}
@@ -227,6 +236,19 @@ export const App = () => {
                 />
               ))}
             </>
+          )}
+
+          {activeTask.length === 0 && completeTask.length === 0 && (
+            <Alert.Root
+              status="info"
+              title="NO TODOS, YAY!!!"
+              alignItems="center"
+              width="fit-content"
+              m="0 auto"
+            >
+              <Alert.Indicator />
+              <Alert.Title>NO TODOS, YAY!!!</Alert.Title>
+            </Alert.Root>
           )}
         </VStack>
       </VStack>
