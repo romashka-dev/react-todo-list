@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Stack, VStack, Text, Separator, Box } from '@chakra-ui/react'
+import { Stack, VStack, Text, Separator, Box, HStack } from '@chakra-ui/react'
 import { TaskPanel } from '@/components/TaskPanel'
 import { TaskCard } from '@/components/TaskCard'
 import { DialogInit } from '@/components/DialogInit'
+import { InitColorMode } from '@/components/InitColorMode'
 
 interface TaskProps {
   id: string
@@ -87,7 +88,10 @@ export const App = () => {
 
   return (
     <Stack w="full" h="100vh">
-      <VStack p={{ base: 4, md: 8 }} m="0 auto" w="full" maxWidth={600} gap={4}>
+      <HStack justifyContent="flex-end" p={{ base: 4, md: 8 }}>
+        <InitColorMode />
+      </HStack>
+      <VStack m="0 auto" p={{ base: 4, md: 8 }} w="full" maxWidth={600} gap={4}>
         <Text
           as="h1"
           w="full"
@@ -226,7 +230,6 @@ export const App = () => {
           )}
         </VStack>
       </VStack>
-
       {currentTask && (
         <DialogInit
           open={isEditing}
