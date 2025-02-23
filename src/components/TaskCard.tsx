@@ -1,4 +1,4 @@
-import { Card, IconButton, Text } from '@chakra-ui/react'
+import { Stack, Card, IconButton, Text } from '@chakra-ui/react'
 import { Checkbox } from './Checkbox'
 import { FaRegTrashCan, FaPen } from 'react-icons/fa6'
 
@@ -20,52 +20,56 @@ export const TaskCard = ({
   removeTask,
 }: TaskCardProps) => {
   return (
-    <Card.Root
-      w="full"
-      border={
-        status
-          ? '1px solid var(--chakra-colors-red-600)'
-          : '1px solid var(--chakra-colors-border)'
-      }
-    >
-      <Card.Body
-        p={4}
+    <Stack>
+      <Card.Root
+        size="sm"
         flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        gap={4}
+        border={
+          status
+            ? '1px solid var(--chakra-colors-red-600)'
+            : '1px solid var(--chakra-colors-border)'
+        }
       >
-        <Checkbox
-          w="full"
-          cursor="pointer"
-          variant="outline"
-          id={id}
-          onChange={taskChangeStatus}
-          checked={status}
+        <Card.Body
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          gap={3}
         >
-          <Text
-            as={status ? 'del' : 'p'}
-            truncate
-            display="block"
-            maxW={{ base: '130px', md: '300px' }}
+          <Checkbox
+            w="full"
+            cursor="pointer"
+            variant="outline"
+            id={id}
+            checked={status}
+            onChange={taskChangeStatus}
           >
-            {label}
-          </Text>
-        </Checkbox>
-        {!status && (
-          <IconButton size="xs" onClick={editTask} aria-label="Edit task">
-            <FaPen />
+            <Text
+              as={status ? 'del' : 'p'}
+              truncate
+              display="block"
+              maxW={{ base: '130px', md: '300px' }}
+            >
+              {label}
+            </Text>
+          </Checkbox>
+        </Card.Body>
+        <Card.Footer pb={0}>
+          {!status && (
+            <IconButton size="xs" aria-label="Edit task" onClick={editTask}>
+              <FaPen />
+            </IconButton>
+          )}
+          <IconButton
+            size="xs"
+            colorPalette="orange"
+            aria-label="Delete task"
+            onClick={removeTask}
+          >
+            <FaRegTrashCan />
           </IconButton>
-        )}
-        <IconButton
-          size="xs"
-          colorPalette="orange"
-          onClick={removeTask}
-          aria-label="Delete task"
-        >
-          <FaRegTrashCan />
-        </IconButton>
-      </Card.Body>
-    </Card.Root>
+        </Card.Footer>
+      </Card.Root>
+    </Stack>
   )
 }

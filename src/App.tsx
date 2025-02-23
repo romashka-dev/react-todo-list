@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { HStack, Flex, Text, Separator, Box } from '@chakra-ui/react'
+import { Stack, VStack, Text, Separator, Box } from '@chakra-ui/react'
 import { TaskPanel } from '@/components/TaskPanel'
 import { TaskCard } from '@/components/TaskCard'
 import { DialogInit } from '@/components/DialogInit'
@@ -86,17 +86,16 @@ export const App = () => {
   }
 
   return (
-    <HStack
-      flexDirection="column"
-      alignItems="center"
-      w="full"
-      h="100vh"
-      py="8"
-      px={{ base: '4', md: '8' }}
-    >
-      <Flex w="full" maxWidth={650} direction="column">
-        <Text as="h1" fontSize={36} fontWeight="bold" mb={4}>
-          Todo List
+    <Stack w="full" h="100vh">
+      <VStack p={{ base: 4, md: 8 }} m="0 auto" w="full" maxWidth={600} gap={4}>
+        <Text
+          as="h1"
+          w="full"
+          fontSize={36}
+          fontWeight="bold"
+          textTransform="capitalize"
+        >
+          todo list
         </Text>
         <TaskPanel
           value={taskInput}
@@ -105,13 +104,17 @@ export const App = () => {
           createTask={handleCreateTask}
           filterTasks={handleFilterTasks}
         />
-        <Flex direction="column" w="full" gap={4}>
+        <VStack alignItems="stretch" gap={4} w="full">
           {filterValue === 'all' && (
             <>
               {activeTask.length > 0 ? (
                 <Box>
                   <Separator my={4} />
-                  <Text fontWeight="bold" textAlign="left">
+                  <Text
+                    fontWeight="bold"
+                    textAlign="left"
+                    textTransform="capitalize"
+                  >
                     Incompleted
                   </Text>
                 </Box>
@@ -136,8 +139,12 @@ export const App = () => {
               {completeTask.length > 0 ? (
                 <Box>
                   <Separator my={4} />
-                  <Text fontWeight="bold" textAlign="left">
-                    Completed
+                  <Text
+                    fontWeight="bold"
+                    textAlign="left"
+                    textTransform="capitalize"
+                  >
+                    completed
                   </Text>
                 </Box>
               ) : (
@@ -161,8 +168,12 @@ export const App = () => {
               {completeTask.length > 0 ? (
                 <Box>
                   <Separator my={4} />
-                  <Text fontWeight="bold" textAlign="left">
-                    Completed
+                  <Text
+                    fontWeight="bold"
+                    textAlign="left"
+                    textTransform="capitalize"
+                  >
+                    completed
                   </Text>
                 </Box>
               ) : (
@@ -186,8 +197,12 @@ export const App = () => {
               {activeTask.length > 0 ? (
                 <Box>
                   <Separator my={4} />
-                  <Text fontWeight="bold" textAlign="left">
-                    Incompleted
+                  <Text
+                    fontWeight="bold"
+                    textAlign="left"
+                    textTransform="capitalize"
+                  >
+                    incompleted
                   </Text>
                 </Box>
               ) : (
@@ -209,8 +224,8 @@ export const App = () => {
               ))}
             </>
           )}
-        </Flex>
-      </Flex>
+        </VStack>
+      </VStack>
 
       {currentTask && (
         <DialogInit
@@ -221,6 +236,6 @@ export const App = () => {
           handleCloseModal={() => setIsEditing(false)}
         />
       )}
-    </HStack>
+    </Stack>
   )
 }

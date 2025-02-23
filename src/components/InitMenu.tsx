@@ -19,7 +19,7 @@ export const InitMenu = ({ filterValue, filterTasks }: InitMenuProps) => {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
-        <Button variant="solid" size={{ base: 'xs', md: 'sm' }}>
+        <Button variant="solid" size={{ base: 'sm', md: 'md' }}>
           <HiSortAscending /> {!isMobile && ' Filter'}
         </Button>
       </MenuTrigger>
