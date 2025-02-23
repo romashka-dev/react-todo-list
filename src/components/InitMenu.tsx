@@ -11,24 +11,24 @@ import { HiSortAscending } from 'react-icons/hi'
 import { Button, useMediaQuery } from '@chakra-ui/react'
 
 interface InitMenuProps {
-  filter: string
-  sortTasks: (sortValue: string) => void
+  filterValue: string
+  filterTasks: (sortValue: string) => void
 }
 
-export const InitMenu = ({ filter, sortTasks }: InitMenuProps) => {
+export const InitMenu = ({ filterValue, filterTasks }: InitMenuProps) => {
   const [isMobile] = useMediaQuery(['(max-width: 768px)'], { ssr: false })
 
   return (
     <MenuRoot>
       <MenuTrigger asChild>
         <Button variant="solid" size={{ base: 'xs', md: 'sm' }}>
-          <HiSortAscending /> {!isMobile && ' Sort'}
+          <HiSortAscending /> {!isMobile && ' Filter'}
         </Button>
       </MenuTrigger>
       <MenuContent minW="10rem">
         <MenuRadioItemGroup
-          value={filter}
-          onValueChange={(e) => sortTasks(e.value)}
+          value={filterValue}
+          onValueChange={(e) => filterTasks(e.value)}
         >
           <MenuRadioItem value="all">All tasks</MenuRadioItem>
           <MenuRadioItem value="completed">Completed</MenuRadioItem>

@@ -5,18 +5,18 @@ import { InitMenu } from './InitMenu'
 
 interface TaskPanelProps {
   value: string
-  filter: string
+  filterValue: string
   changeInput: (e: ChangeEvent<HTMLInputElement>) => void
   createTask: () => void
-  sortTasks: (sortValue: string) => void
+  filterTasks: (sortValue: string) => void
 }
 
 export const TaskPanel = ({
   value,
-  filter,
+  filterValue,
   changeInput,
   createTask,
-  sortTasks,
+  filterTasks,
 }: TaskPanelProps) => {
   return (
     <Flex
@@ -40,7 +40,7 @@ export const TaskPanel = ({
       >
         <FaRegSquarePlus />
       </IconButton>
-      <InitMenu sortTasks={sortTasks} filter={filter} />
+      <InitMenu filterTasks={filterTasks} filterValue={filterValue} />
     </Flex>
   )
 }

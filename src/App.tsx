@@ -17,8 +17,9 @@ export const App = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
   const [newLabel, setNewLabel] = useState('')
-  const [filter, setFilter] = useState('all')
+  const [filterValue, setFilterValue] = useState('all')
 
+  // Save and load tasks via localStorage
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]')
 
@@ -31,10 +32,16 @@ export const App = () => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
 
+  //  Variables to render HTML of active or completed tasks
+  const activeTask = tasks.filter((task) => task.status === false)
+  const completeTask = tasks.filter((task) => task.status === true)
+
+  // Handle event to get main input
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.currentTarget.value)
   }
 
+  // Handle event to create new task
   const handleCreateTask = () => {
     const newTask = { id: uuidv4(), label: taskInput, status: false }
 
@@ -42,19 +49,14 @@ export const App = () => {
     setTaskInput('')
   }
 
-  const handleSortTasks = (sortValue: string) => {
-    setFilter(sortValue)
-  }
-
+  // Handle event to define completed task
   const handleCompleteTask = (id: string) => {
     setTasks((prev) =>
       prev.map((task) => (task.id === id ? { ...task, status: true } : task))
     )
   }
 
-  const activeTask = tasks.filter((task) => task.status === false)
-  const completeTask = tasks.filter((task) => task.status === true)
-
+  // Handle event to edit and save new name for task
   const handleEditTask = (task: TaskProps) => {
     setCurrentTask(task)
     setNewLabel(task.label)
@@ -71,10 +73,16 @@ export const App = () => {
     setCurrentTask(null)
   }
 
+  // Handle event to remove task
   const handleRemoveTask = (id: string) => {
     const removeTask = tasks.filter((task) => task.id !== id)
 
     setTasks(removeTask)
+  }
+
+  // Handle event to sort tasks by all, completed or incompleted
+  const handleFilterTasks = (sortValue: string) => {
+    setFilterValue(sortValue)
   }
 
   return (
@@ -92,13 +100,13 @@ export const App = () => {
         </Text>
         <TaskPanel
           value={taskInput}
-          filter={filter}
+          filterValue={filterValue}
           changeInput={handleChangeInput}
           createTask={handleCreateTask}
-          sortTasks={handleSortTasks}
+          filterTasks={handleFilterTasks}
         />
         <Flex direction="column" w="full" gap={4}>
-          {filter === 'all' && (
+          {filterValue === 'all' && (
             <>
               {activeTask.length > 0 ? (
                 <Box>
@@ -148,7 +156,7 @@ export const App = () => {
             </>
           )}
 
-          {filter === 'completed' && (
+          {filterValue === 'completed' && (
             <>
               {completeTask.length > 0 ? (
                 <Box>
@@ -173,7 +181,7 @@ export const App = () => {
             </>
           )}
 
-          {filter === 'incompleted' && (
+          {filterValue === 'incompleted' && (
             <>
               {activeTask.length > 0 ? (
                 <Box>
