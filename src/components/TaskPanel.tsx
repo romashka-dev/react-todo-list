@@ -22,6 +22,8 @@ export const TaskPanel = ({
     <HStack w="full" gap={3}>
       <Input
         size={{ base: 'sm', md: 'md' }}
+        bg="bg.emphasized"
+        borderColor="border.emphasized"
         variant="subtle"
         value={value}
         placeholder="Min. 2 characters to begin ..."
