@@ -28,6 +28,7 @@ export const App = () => {
   const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
   const [newLabel, setNewLabel] = useState('')
   const [filterValue, setFilterValue] = useState('all')
+  const [searchBarInput, setSearchBarInput] = useState('')
 
   // Save and load tasks via localStorage
   useEffect(() => {
@@ -42,7 +43,7 @@ export const App = () => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
 
-  //  Variables to render HTML of active or completed tasks
+  //  Rendering HTML of active or completed tasks
   const activeTask = tasks.filter((task) => task.status === false)
   const completeTask = tasks.filter((task) => task.status === true)
 
@@ -51,7 +52,12 @@ export const App = () => {
     setTaskInput(e.currentTarget.value)
   }
 
-  // Handle event to create new task
+  // Handle event to get filter menu input
+  const handleChangeFilterInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchBarInput(e.currentTarget.value)
+  }
+
+  // Create new task
   const handleCreateTask = () => {
     const newTask = { id: uuidv4(), label: taskInput, status: false }
 
@@ -59,20 +65,21 @@ export const App = () => {
     setTaskInput('')
   }
 
-  // Handle event to define completed task
+  // Handle of completed task
   const handleCompleteTask = (id: string) => {
     setTasks((prev) =>
       prev.map((task) => (task.id === id ? { ...task, status: true } : task))
     )
   }
 
-  // Handle event to edit and save new name for task
+  // Edit current task
   const handleEditTask = (task: TaskProps) => {
     setCurrentTask(task)
     setNewLabel(task.label)
     setIsEditing(true)
   }
 
+  // Save current task
   const handleSaveTask = () => {
     setTasks(
       tasks.map((task) =>
@@ -83,14 +90,14 @@ export const App = () => {
     setCurrentTask(null)
   }
 
-  // Handle event to remove task
+  // Remove current task
   const handleRemoveTask = (id: string) => {
     const removeTask = tasks.filter((task) => task.id !== id)
 
     setTasks(removeTask)
   }
 
-  // Handle event to sort tasks by all, completed or incompleted
+  // Filter tasks by all, completed or incompleted
   const handleFilterTasks = (sortValue: string) => {
     setFilterValue(sortValue)
   }
@@ -113,7 +120,9 @@ export const App = () => {
         <TaskPanel
           value={taskInput}
           filterValue={filterValue}
+          searchBarInput={searchBarInput}
           changeInput={handleChangeInput}
+          changeInputFilter={handleChangeFilterInput}
           createTask={handleCreateTask}
           filterTasks={handleFilterTasks}
         />
@@ -135,19 +144,25 @@ export const App = () => {
                 ''
               )}
 
-              {activeTask.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  id={task.id}
-                  label={task.label}
-                  status={task.status}
-                  taskChangeStatus={() => {
-                    handleCompleteTask(task.id)
-                  }}
-                  editTask={() => handleEditTask(task)}
-                  removeTask={() => handleRemoveTask(task.id)}
-                />
-              ))}
+              {activeTask
+                .filter((task) => {
+                  return searchBarInput.toLowerCase() === ''
+                    ? task
+                    : task.label.toLowerCase().includes(searchBarInput)
+                })
+                .map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    id={task.id}
+                    label={task.label}
+                    status={task.status}
+                    taskChangeStatus={() => {
+                      handleCompleteTask(task.id)
+                    }}
+                    editTask={() => handleEditTask(task)}
+                    removeTask={() => handleRemoveTask(task.id)}
+                  />
+                ))}
 
               {completeTask.length > 0 ? (
                 <Box>
@@ -164,15 +179,21 @@ export const App = () => {
                 ''
               )}
 
-              {completeTask.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  id={task.id}
-                  label={task.label}
-                  status={task.status}
-                  removeTask={() => handleRemoveTask(task.id)}
-                />
-              ))}
+              {completeTask
+                .filter((task) => {
+                  return searchBarInput.toLowerCase() === ''
+                    ? task
+                    : task.label.toLowerCase().includes(searchBarInput)
+                })
+                .map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    id={task.id}
+                    label={task.label}
+                    status={task.status}
+                    removeTask={() => handleRemoveTask(task.id)}
+                  />
+                ))}
             </>
           )}
 
@@ -193,15 +214,21 @@ export const App = () => {
                 ''
               )}
 
-              {completeTask.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  id={task.id}
-                  label={task.label}
-                  status={task.status}
-                  removeTask={() => handleRemoveTask(task.id)}
-                />
-              ))}
+              {completeTask
+                .filter((task) => {
+                  return searchBarInput.toLowerCase() === ''
+                    ? task
+                    : task.label.toLowerCase().includes(searchBarInput)
+                })
+                .map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    id={task.id}
+                    label={task.label}
+                    status={task.status}
+                    removeTask={() => handleRemoveTask(task.id)}
+                  />
+                ))}
             </>
           )}
 
@@ -222,19 +249,25 @@ export const App = () => {
                 ''
               )}
 
-              {activeTask.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  id={task.id}
-                  label={task.label}
-                  status={task.status}
-                  taskChangeStatus={() => {
-                    handleCompleteTask(task.id)
-                  }}
-                  editTask={() => handleEditTask(task)}
-                  removeTask={() => handleRemoveTask(task.id)}
-                />
-              ))}
+              {activeTask
+                .filter((task) => {
+                  return searchBarInput.toLowerCase() === ''
+                    ? task
+                    : task.label.toLowerCase().includes(searchBarInput)
+                })
+                .map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    id={task.id}
+                    label={task.label}
+                    status={task.status}
+                    taskChangeStatus={() => {
+                      handleCompleteTask(task.id)
+                    }}
+                    editTask={() => handleEditTask(task)}
+                    removeTask={() => handleRemoveTask(task.id)}
+                  />
+                ))}
             </>
           )}
 

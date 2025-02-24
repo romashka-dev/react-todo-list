@@ -6,7 +6,9 @@ import { FilterMenu } from './FilterMenu'
 interface TaskPanelProps {
   value: string
   filterValue: string
+  searchBarInput: string
   changeInput: (e: ChangeEvent<HTMLInputElement>) => void
+  changeInputFilter: (e: ChangeEvent<HTMLInputElement>) => void
   createTask: () => void
   filterTasks: (sortValue: string) => void
 }
@@ -14,7 +16,9 @@ interface TaskPanelProps {
 export const TaskPanel = ({
   value,
   filterValue,
+  searchBarInput,
   changeInput,
+  changeInputFilter,
   createTask,
   filterTasks,
 }: TaskPanelProps) => {
@@ -37,7 +41,12 @@ export const TaskPanel = ({
       >
         <FaRegSquarePlus />
       </IconButton>
-      <FilterMenu filterTasks={filterTasks} filterValue={filterValue} />
+      <FilterMenu
+        filterTasks={filterTasks}
+        filterValue={filterValue}
+        searchBarInput={searchBarInput}
+        changeInputFilter={changeInputFilter}
+      />
     </HStack>
   )
 }
