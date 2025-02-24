@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/3871206d-60ab-4b65-aa21-a3f57625c1be/deploy-status)](https://app.netlify.com/sites/todotodo-list-react/deploys)
 
-A simple and intuitive To-Do List application built with React.js. This app allows users to manage their daily tasks efficiently with features like adding, editing, marking as completed, and deleting tasks.
+A simple and intuitive To-Do List application built with React.js. This app allows users to manage their daily tasks efficiently with features like adding, editing, marking as completed/incompleted, and deleting tasks.
 
 ## 🚀 Features
 
@@ -10,9 +10,13 @@ A simple and intuitive To-Do List application built with React.js. This app allo
 
 ✅ Edit existing tasks
 
-✅ Mark tasks as completed
+✅ Mark tasks as completed/incompleted
 
 ✅ Remove tasks
+
+✅ Display task badges with due dates
+
+✅ Filter tasks using a search bar
 
 ✅ Local storage support (tasks persist after refresh)
 
