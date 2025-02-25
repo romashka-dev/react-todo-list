@@ -54,13 +54,7 @@ export const TaskCard = ({
             checked={status}
             onChange={taskChangeStatus}
           >
-            <Text
-              as={status ? 'del' : 'p'}
-              display="block"
-              maxW={{ base: '160px', md: '300px' }}
-            >
-              {label}
-            </Text>
+            <Text as={status ? 'del' : 'p'}>{label}</Text>
           </Checkbox>
           <Badge variant="solid" size="xs" colorPalette="blue">
             {formattedDate}
