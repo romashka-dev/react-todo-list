@@ -19,6 +19,7 @@ interface TaskProps {
   id: string
   label: string
   status: boolean
+  dataCreated: string
 }
 
 export const App = () => {
@@ -59,7 +60,12 @@ export const App = () => {
 
   // Create new task
   const handleCreateTask = () => {
-    const newTask = { id: uuidv4(), label: taskInput, status: false }
+    const newTask = {
+      id: uuidv4(),
+      label: taskInput,
+      status: false,
+      dataCreated: new Date().toISOString(),
+    }
 
     setTasks((prev) => [...prev, newTask])
     setTaskInput('')
@@ -156,6 +162,7 @@ export const App = () => {
                     id={task.id}
                     label={task.label}
                     status={task.status}
+                    dateCreated={task.dataCreated}
                     taskChangeStatus={() => {
                       handleCompleteTask(task.id)
                     }}
@@ -191,6 +198,7 @@ export const App = () => {
                     id={task.id}
                     label={task.label}
                     status={task.status}
+                    dateCreated={task.dataCreated}
                     removeTask={() => handleRemoveTask(task.id)}
                   />
                 ))}
@@ -226,6 +234,7 @@ export const App = () => {
                     id={task.id}
                     label={task.label}
                     status={task.status}
+                    dateCreated={task.dataCreated}
                     removeTask={() => handleRemoveTask(task.id)}
                   />
                 ))}
@@ -261,6 +270,7 @@ export const App = () => {
                     id={task.id}
                     label={task.label}
                     status={task.status}
+                    dateCreated={task.dataCreated}
                     taskChangeStatus={() => {
                       handleCompleteTask(task.id)
                     }}

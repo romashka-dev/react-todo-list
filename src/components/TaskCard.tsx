@@ -6,6 +6,7 @@ interface TaskCardProps {
   id: string
   label: string
   status: boolean
+  dateCreated: string
   taskChangeStatus?: () => void
   removeTask: () => void
   editTask?: () => void
@@ -15,13 +16,17 @@ export const TaskCard = ({
   id,
   label,
   status,
+  dateCreated,
   taskChangeStatus,
   editTask,
   removeTask,
 }: TaskCardProps) => {
-  const today = new Date().toLocaleDateString('en-us', { weekday: 'long' })
-  const day = new Date().toLocaleDateString('en-us', { day: 'numeric' })
-  const month = new Date().toLocaleDateString('en-us', { month: 'short' })
+  const date = new Date(dateCreated)
+  const formattedDate = date.toLocaleDateString('en-us', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'short',
+  })
 
   return (
     <Stack>
@@ -58,7 +63,7 @@ export const TaskCard = ({
             </Text>
           </Checkbox>
           <Badge variant="solid" size="xs" colorPalette="blue">
-            {today},&nbsp;{month}&nbsp;{day}
+            {formattedDate}
           </Badge>
         </Card.Body>
         <Card.Footer pb={0}>
