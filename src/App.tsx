@@ -44,9 +44,24 @@ export const App = () => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
 
-  //  Rendering HTML of active or completed tasks
-  const activeTask = tasks.filter((task) => task.status === false)
-  const completeTask = tasks.filter((task) => task.status === true)
+  // Filter of tasks: incompleted/completed/via search bar
+  const getFilteredTasks = () => {
+    return tasks
+      .filter((task) => {
+        if (filterValue === 'completed') return task.status === true
+        if (filterValue === 'incompleted') return task.status === false
+        return true
+      })
+      .filter((task) => {
+        return (
+          searchBarInput.toLowerCase() === '' ||
+          task.label.toLowerCase().includes(searchBarInput.toLowerCase())
+        )
+      })
+  }
+  const filteredTasks = getFilteredTasks()
+  const activeTasks = filteredTasks.filter((task) => task.status === false)
+  const completedTasks = filteredTasks.filter((task) => task.status === true)
 
   // Handle event to get main input
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -133,155 +148,63 @@ export const App = () => {
           filterTasks={handleFilterTasks}
         />
         <VStack alignItems="stretch" gap={4} w="full">
-          {filterValue === 'all' && (
-            <>
-              {activeTask.length > 0 ? (
-                <Box>
-                  <Separator my={4} />
-                  <Text
-                    fontWeight="bold"
-                    textAlign="left"
-                    textTransform="capitalize"
-                  >
-                    Incompleted
-                  </Text>
-                </Box>
-              ) : (
-                ''
-              )}
-
-              {activeTask
-                .filter((task) => {
-                  return searchBarInput.toLowerCase() === ''
-                    ? task
-                    : task.label.toLowerCase().includes(searchBarInput)
-                })
-                .map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    id={task.id}
-                    label={task.label}
-                    status={task.status}
-                    dateCreated={task.dataCreated}
-                    taskChangeStatus={() => {
-                      handleCompleteTask(task.id)
-                    }}
-                    editTask={() => handleEditTask(task)}
-                    removeTask={() => handleRemoveTask(task.id)}
-                  />
-                ))}
-
-              {completeTask.length > 0 ? (
-                <Box>
-                  <Separator my={4} />
-                  <Text
-                    fontWeight="bold"
-                    textAlign="left"
-                    textTransform="capitalize"
-                  >
-                    completed
-                  </Text>
-                </Box>
-              ) : (
-                ''
-              )}
-
-              {completeTask
-                .filter((task) => {
-                  return searchBarInput.toLowerCase() === ''
-                    ? task
-                    : task.label.toLowerCase().includes(searchBarInput)
-                })
-                .map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    id={task.id}
-                    label={task.label}
-                    status={task.status}
-                    dateCreated={task.dataCreated}
-                    removeTask={() => handleRemoveTask(task.id)}
-                  />
-                ))}
-            </>
+          {activeTasks.length > 0 ? (
+            <Box>
+              <Separator my={4} />
+              <Text
+                fontWeight="bold"
+                textAlign="left"
+                textTransform="capitalize"
+              >
+                incompleted
+              </Text>
+            </Box>
+          ) : (
+            ''
           )}
 
-          {filterValue === 'completed' && (
-            <>
-              {completeTask.length > 0 ? (
-                <Box>
-                  <Separator my={4} />
-                  <Text
-                    fontWeight="bold"
-                    textAlign="left"
-                    textTransform="capitalize"
-                  >
-                    completed
-                  </Text>
-                </Box>
-              ) : (
-                ''
-              )}
+          {activeTasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              id={task.id}
+              label={task.label}
+              status={task.status}
+              dateCreated={task.dataCreated}
+              taskChangeStatus={() => {
+                handleCompleteTask(task.id)
+              }}
+              editTask={() => handleEditTask(task)}
+              removeTask={() => handleRemoveTask(task.id)}
+            />
+          ))}
 
-              {completeTask
-                .filter((task) => {
-                  return searchBarInput.toLowerCase() === ''
-                    ? task
-                    : task.label.toLowerCase().includes(searchBarInput)
-                })
-                .map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    id={task.id}
-                    label={task.label}
-                    status={task.status}
-                    dateCreated={task.dataCreated}
-                    removeTask={() => handleRemoveTask(task.id)}
-                  />
-                ))}
-            </>
+          {completedTasks.length > 0 ? (
+            <Box>
+              <Separator my={4} />
+              <Text
+                fontWeight="bold"
+                textAlign="left"
+                textTransform="capitalize"
+              >
+                completed
+              </Text>
+            </Box>
+          ) : (
+            ''
           )}
 
-          {filterValue === 'incompleted' && (
-            <>
-              {activeTask.length > 0 ? (
-                <Box>
-                  <Separator my={4} />
-                  <Text
-                    fontWeight="bold"
-                    textAlign="left"
-                    textTransform="capitalize"
-                  >
-                    incompleted
-                  </Text>
-                </Box>
-              ) : (
-                ''
-              )}
+          {completedTasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              id={task.id}
+              label={task.label}
+              status={task.status}
+              dateCreated={task.dataCreated}
+              removeTask={() => handleRemoveTask(task.id)}
+            />
+          ))}
 
-              {activeTask
-                .filter((task) => {
-                  return searchBarInput.toLowerCase() === ''
-                    ? task
-                    : task.label.toLowerCase().includes(searchBarInput)
-                })
-                .map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    id={task.id}
-                    label={task.label}
-                    status={task.status}
-                    dateCreated={task.dataCreated}
-                    taskChangeStatus={() => {
-                      handleCompleteTask(task.id)
-                    }}
-                    editTask={() => handleEditTask(task)}
-                    removeTask={() => handleRemoveTask(task.id)}
-                  />
-                ))}
-            </>
-          )}
-
-          {activeTask.length === 0 && completeTask.length === 0 && (
+          {filteredTasks.length === 0 && (
             <Alert.Root
               status="info"
               title="NO TODOS, YAY!!!"
@@ -293,17 +216,18 @@ export const App = () => {
               <Alert.Title>NO TODOS, YAY!!!</Alert.Title>
             </Alert.Root>
           )}
+
+          {currentTask && (
+            <DialogInit
+              open={isEditing}
+              newLabel={newLabel}
+              handleInput={(e) => setNewLabel(e.target.value)}
+              handleSaveTask={handleSaveTask}
+              handleCloseModal={() => setIsEditing(false)}
+            />
+          )}
         </VStack>
       </VStack>
-      {currentTask && (
-        <DialogInit
-          open={isEditing}
-          newLabel={newLabel}
-          handleInput={(e) => setNewLabel(e.target.value)}
-          handleSaveTask={handleSaveTask}
-          handleCloseModal={() => setIsEditing(false)}
-        />
-      )}
     </Stack>
   )
 }
