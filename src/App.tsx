@@ -34,9 +34,21 @@ export const App = () => {
   // Save and load tasks via localStorage
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]')
-
     if (storedTasks.length > 0) {
       setTasks(storedTasks)
+    }
+
+    const handleStorageState = (e: StorageEvent) => {
+      if (e.key === 'tasks') {
+        const updatedTasks = JSON.parse(e.newValue || '[]')
+        setTasks(updatedTasks)
+      }
+    }
+
+    window.addEventListener('storage', handleStorageState)
+
+    return () => {
+      window.addEventListener('storage', handleStorageState)
     }
   }, [])
 
