@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/Dialog'
 
-interface DialogInitProps {
+interface InitDialogProps {
   open: boolean
   newLabel: string
   handleInput: (e: ChangeEvent<HTMLInputElement>) => void
@@ -19,13 +19,13 @@ interface DialogInitProps {
   handleSaveTask: () => void
 }
 
-export const DialogInit = ({
+export const InitDialog = ({
   open,
   newLabel,
   handleInput,
   handleCloseModal,
   handleSaveTask,
-}: DialogInitProps) => {
+}: InitDialogProps) => {
   return (
     <DialogRoot open={open} onOpenChange={handleCloseModal}>
       <DialogTrigger />

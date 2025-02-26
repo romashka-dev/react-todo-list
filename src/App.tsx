@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { TaskPanel } from '@/components/TaskPanel'
 import { TaskCard } from '@/components/TaskCard'
-import { DialogInit } from '@/components/DialogInit'
+import { InitDialog } from '@/components/InitDialog'
 import { InitColorMode } from '@/components/InitColorMode'
 
 interface TaskProps {
@@ -235,7 +235,7 @@ export const App = () => {
           )}
 
           {currentTask && (
-            <DialogInit
+            <InitDialog
               open={isEditing}
               newLabel={newLabel}
               handleInput={(e) => setNewLabel(e.target.value)}
