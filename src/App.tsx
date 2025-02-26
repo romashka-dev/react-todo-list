@@ -47,6 +47,11 @@ export const App = () => {
   // Filter of tasks: incompleted/completed/via search bar
   const getFilteredTasks = () => {
     return tasks
+      .sort(
+        (prevDate, currentDate) =>
+          new Date(currentDate.dataCreated).getTime() -
+          new Date(prevDate.dataCreated).getTime()
+      )
       .filter((task) => {
         if (filterValue === 'completed') return task.status === true
         if (filterValue === 'incompleted') return task.status === false
@@ -82,7 +87,7 @@ export const App = () => {
       dataCreated: new Date().toISOString(),
     }
 
-    setTasks((prev) => [...prev, newTask])
+    setTasks((prev) => [newTask, ...prev])
     setTaskInput('')
   }
 
